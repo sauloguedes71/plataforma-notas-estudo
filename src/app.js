@@ -2,8 +2,8 @@ const Materia = require('./materia');
 const Aluno = require('./aluno');
 
 // Criando algumas matérias
-const matematica = new Materia('Matemática', 'Prof. Silva', 'Álgebra, geometria, cálculo');
-const historia = new Materia('História', 'Prof. Santos', 'Idade Média, Idade Moderna, Idade Contemporânea');
+const matematica = new Materia('Matemática', 'Prof. Thomas', 'Álgebra, geometria, cálculo');
+const historia = new Materia('História', 'Prof. Pereira', 'Idade Média, Idade Moderna, Idade Contemporânea');
 
 // Criando um aluno
 const aluno1 = new Aluno('Solano');

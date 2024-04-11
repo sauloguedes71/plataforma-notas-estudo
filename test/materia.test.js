@@ -1,4 +1,4 @@
-const Materia = require('../mini_projeto/materia.js');
+const Materia = require('../src/materia.js');
 
 describe('Testes da classe Materia', () => {
   it('Deve criar uma nova matéria com sucesso', () => {
