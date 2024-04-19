@@ -1,23 +1,39 @@
-const Materia = require('./materia');
 const Aluno = require('./aluno');
 
-// Criando algumas matérias
-const matematica = new Materia('Matemática', 'Prof. Thomas', 'Álgebra, geometria, cálculo');
-const historia = new Materia('História', 'Prof. Pereira', 'Idade Média, Idade Moderna, Idade Contemporânea');
+class TestarAluno {
+  static testarInserirAluno() {
+    
+    const aluno = new Aluno(
+      'Solano',
+      '2004-10-29',
+      '098.750.835-00',
+      '1234567',
+      'M',
+      'Rua São josé, 123',
+      '(77) 999530087',
+      '20220001',
+      'gilvando',
+      '987.654.321-00',
+      'Arizete',
+      '987.654.321-01',
+      'Certidão 123'
+    );
 
-// Criando um aluno
-const aluno1 = new Aluno('Solano');
+    // Chamar o método adicionarAluno() para inserir o aluno no banco de dados
+    aluno.adicionarAluno();
+  }
+}
 
-// Adicionando matérias ao aluno
-aluno1.adicionarMateria(matematica);
-aluno1.adicionarMateria(historia);
+// Chamar a função para testar a inserção de um aluno
+TestarAluno.testarInserirAluno()
 
-// Adicionando notas
-aluno1.adicionarNota('Matemática', 10);
-aluno1.adicionarNota('História', 7.0);
+const aluno = new Aluno();
 
-// Exibindo as notas do aluno
-console.log(`${aluno1.nome} - Notas:`);
-aluno1.materias.forEach(materia => {
-  console.log(`${materia.nome}: ${materia.nota || 'N/A'}`);
+aluno.consultarAluno('solano', (err, resultados) => {
+    if (err) {
+        console.error('Erro ao consultar aluno:', err);
+        return;
+    }
+
+    console.log('Resultados da consulta:', resultados);
 });
