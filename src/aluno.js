@@ -15,20 +15,15 @@ class Aluno {
       this.cpf_mae = cpf_mae
       this.certidao_nascimento = certidao_nascimento;   
       this.id_turma = id_turma
+      this.conexao = new Conexao()
     }
 
 
 
-  adicionarAluno(){ // adc o aluno ao banco de dados
-    const conexao = new Conexao(); 
-    conexao.conectar(); 
+  async adicionarAluno(){ // adc o aluno ao banco de dados
+    this.conexao.conectar(); 
 
-    const sql = `
-      INSERT INTO aluno (
-        nome_aluno, data_nascimento, cpf, rg, sexo, endereco,
-        telefone, N_matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao
-      ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
+    const sql = `INSERT INTO aluno (nome_aluno, data_nascimento, cpf, rg, sexo, endereco, telefone, N_matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
 
     const valores = [
       this.nome_aluno, this.data_nascimento, this.cpf_aluno, this.rg_aluno, this.sexo,
@@ -36,38 +31,43 @@ class Aluno {
       this.cpf_pai, this.nome_mae, this.cpf_mae, this.certidao_nascimento
     ];
 
-    conexao.conexao.query(sql, valores, (err, resultado) => {
-      if (err) {
-        console.error('Erro ao adicionar aluno: ' + err.stack);
-        return;
-      }
-      console.log('Aluno adicionado com sucesso. ID:', resultado.insertId);
-    });
+    return new Promise((resolve, reject) => {
+      this.conexao.query(sql, valores, (err, resultado) => {        
+          if (err) {
+              console.error('Erro ao adicionar aluno:', err);
+              reject(err);
+              return;
+          }
+          console.log('Aluno adicionado com sucesso. ID:', resultado.insertId);
 
-    conexao.fecharConexao(); 
+          this.conexao.fecharConexao(); 
+
+          resolve(resultado.insertId);
+      });
+  });
   }
 
 
-  consultarAluno(nome, callback) { // faiz a consulta do aluno pelo nome 
-    const conexao = new Conexao();
-    conexao.conectar();
+  async consultarAluno(nome) { // faiz a consulta do aluno pelo nome 
+    this.conexao.conectar();
 
-    const sql = `
-        SELECT * FROM aluno WHERE nome_aluno LIKE ?`;
-    const valor = [`%${nome}%`]; 
+    const sql = `SELECT * FROM aluno WHERE nome_aluno LIKE ?`;
+    const valor = [`%${nome}%`];
 
-    conexao.conexao.query(sql, valor, (err, resultados) => {
-        if (err) {
-            console.error('Erro ao consultar aluno:', err.stack);
-            callback(err, null);
-            return;
-        }
+    return new Promise((resolve, reject) => {
+        this.conexao.query(sql, valor, (err, resultados) => {            
+            if (err) {
+                console.error('Erro ao consultar aluno:', err);
+                reject(err);
+                return;
+            }
 
-        callback(null, resultados);
+            this.conexao.fecharConexao();
+            
+            resolve(resultados);
+        });
     });
-
-    conexao.fecharConexao();
+  }
 }
-  }
 
   module.exports = Aluno;

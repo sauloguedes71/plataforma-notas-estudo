@@ -12,18 +12,21 @@ class Conexao {
 
   conectar() {
     this.conexao.connect((err) => {
-      if (err) {
-        console.error('Erro ao conectar: ' + err.stack);
-        return;
-      }
-      console.log('Conectado como ID ' + this.conexao.threadId);
-      
+      if (err) throw err
+       console.log('Conectado ao banco de dados MySQL')
     });
   }
 
   fecharConexao() {
-    this.conexao.end();
+    this.conexao.end((err) => {
+      if (err) throw err;
+      console.log('Conexão com o banco de dados fechada');
+  });
   }
+
+  query(sql, valores, callback) {
+    this.conexao.query(sql, valores, callback);
+}
 }
 
 module.exports = Conexao;
