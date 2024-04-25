@@ -1,4 +1,4 @@
-const Conexao = require("./conexao");
+const Conexao = require("../conexao");
 
 class Materia {
     constructor(id_materia, nome_materia, id_professor) {
@@ -8,8 +8,24 @@ class Materia {
       this.conexao = new Conexao()
     }
 
-    async verMateria(){ // ver a materia e seus alunos
+    async verMaterias(){ // ver a materias
+      this.conexao.conectar()
 
+      const sql = `select * from materia;`
+
+      return new Promise((resolve, reject) => 
+        this.conexao.query(sql, (err, resultados) => {
+          if (err) {
+            console.error('Erro ao consultar matéria:', err)
+            reject(err)
+            return
+          }
+
+          this.conexao.fecharConexao();
+          
+          resolve(resultados)
+        })
+      )     
     }
 
      async adicioanarMateria(){ //adc matéria ao banco de dados

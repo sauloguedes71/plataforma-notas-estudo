@@ -1,4 +1,4 @@
-const Conexao = require('./conexao');
+const Conexao = require('../conexao');
 class Aluno {
     constructor(nome_aluno, data_nascimento, cpf_aluno, rg_aluno, sexo, endereco, telefone, matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao_nascimento, id_turma) {
       this.nome_aluno = nome_aluno;
@@ -19,8 +19,8 @@ class Aluno {
     }
 
 
-
-  async adicionarAluno(){ // adc o aluno ao banco de dados
+// adc o aluno ao banco de dados
+  async adicionarAluno(){ 
     this.conexao.conectar(); 
 
     const sql = `INSERT INTO aluno (nome_aluno, data_nascimento, cpf, rg, sexo, endereco, telefone, N_matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
@@ -44,11 +44,11 @@ class Aluno {
 
           resolve(resultado.insertId);
       });
-  });
+    });
   }
 
-
-  async consultarAluno(nome) { // faiz a consulta do aluno pelo nome 
+// faiz a consulta do aluno pelo nome 
+  async consultarAluno(nome) { 
     this.conexao.conectar();
 
     const sql = `SELECT * FROM aluno WHERE nome_aluno LIKE ?`;
