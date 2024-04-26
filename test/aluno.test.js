@@ -1,17 +1,16 @@
-const Aluno = require('../src/classes/aluno');
+const Aluno = require('../src/model/aluno');
 const Conexao = require('../src/conexao'); 
 
 // Mock para Conexao
 jest.mock('../src/conexao');
 
-beforeAll(() => {
+beforeAll(() => { //remove msg de erros no console
     jest.spyOn(console, 'error').mockImplementation(() => {});
-  });
+});
   
   afterAll(() => {
-    // Restaurando console.error após os testes
     console.error.mockRestore();
-  });
+});
   
 describe('Aluno', () => {
   let aluno;

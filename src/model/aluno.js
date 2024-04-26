@@ -38,7 +38,6 @@ class Aluno {
               reject(err);
               return;
           }
-          console.log('Aluno adicionado com sucesso. ID:', resultado.insertId);
 
           this.conexao.fecharConexao(); 
 

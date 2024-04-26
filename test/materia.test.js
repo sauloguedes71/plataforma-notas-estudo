@@ -1,11 +1,11 @@
-const Materia = require('../src/classes/materia');
+const Materia = require('../src/model/materia');
 const Conexao = require('../src/conexao');
 
 // Mock para Conexao
 jest.mock('../src/conexao');
 
-// Espionar console.error para evitar logs durante os testes
-beforeAll(() => {
+
+beforeAll(() => { //remove msg de erros no console
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
