@@ -1,19 +1,19 @@
 const Conexao = require('../conexao');
 class Aluno {
-    constructor(nome_aluno, data_nascimento, cpf_aluno, rg_aluno, sexo, endereco, telefone, matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao_nascimento, id_turma) {
+    constructor(nome_aluno, data_nascimento, cpf, rg, sexo, endereco, telefone, N_matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao, id_turma) {
       this.nome_aluno = nome_aluno;
       this.data_nascimento = data_nascimento;
-      this.cpf_aluno = cpf_aluno;
-      this.rg_aluno = rg_aluno;
+      this.cpf = cpf;
+      this.rg = rg;
       this.sexo = sexo;
       this.endereco = endereco;
       this.telefone = telefone;
-      this.matricula = matricula;
+      this.N_matricula = N_matricula;
       this.nome_pai = nome_pai;
       this.cpf_pai = cpf_pai;
       this.nome_mae = nome_mae
       this.cpf_mae = cpf_mae
-      this.certidao_nascimento = certidao_nascimento;   
+      this.certidao = certidao;   
       this.id_turma = id_turma
       this.conexao = new Conexao()
     }
@@ -26,9 +26,10 @@ class Aluno {
     const sql = `INSERT INTO aluno (nome_aluno, data_nascimento, cpf, rg, sexo, endereco, telefone, N_matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) `;
 
     const valores = [
-      this.nome_aluno, this.data_nascimento, this.cpf_aluno, this.rg_aluno, this.sexo,
-      this.endereco, this.telefone, this.matricula, this.nome_pai,
-      this.cpf_pai, this.nome_mae, this.cpf_mae, this.certidao_nascimento
+      this.nome_aluno, this.data_nascimento, this.cpf,
+      this.rg, this.sexo, this.endereco, this.telefone,
+      this.N_matricula, this.nome_pai, this.cpf_pai,
+      this.nome_mae, this.cpf_mae, this.certidao
     ];
 
     return new Promise((resolve, reject) => {

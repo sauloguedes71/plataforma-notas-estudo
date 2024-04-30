@@ -23,7 +23,7 @@ class Professor {
 
 
     //adc professor ao banco de dados
-    adiconarProfessor(){
+    async adiconarProfessor(){
         this.conexao.conectar()
 
         const sql = `insert into professor (nome_professor, data_nascimento, cpf, rg, endereco_residencial, telefone_fixo, telefone_celular, email, nivel_formacao, instituicao_formacao, cursos_complementares, areas_especializacao, data_admissao, carga_horaria, disciplinas_lecionadas, horario_trabalho) values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)` 

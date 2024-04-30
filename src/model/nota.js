@@ -1,6 +1,6 @@
 const Conexao = require('../conexao')
 
-class nota {
+class Nota {
     constructor(id_nota, id_materia, n_matricula, nota, data_nota) {
         this.id_materia = id_materia
         this.id_nota = id_nota
@@ -92,3 +92,5 @@ class nota {
         });
     }
 }
+
+module.exports = Nota
