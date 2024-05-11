@@ -9,11 +9,11 @@ class Usuario {
         this.conexao = new Conexao()
     }
 
-    async login(){ 
+    async login(email, senha){ 
         this.conexao.conectar()
 
         const sql = `select email, nome, permissao from usuario where email = ? and senha = ? `
-        const valores = [this.email, this.senha]
+        const valores = [email, senha]
 
         return new Promise((resolve, reject) => {
             this.conexao.query(sql, valores, (err, resultado) => {        

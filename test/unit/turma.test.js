@@ -1,7 +1,7 @@
-const Conexao = require('../src/conexao');
-const Turma = require('../src/model/turma');
+const Conexao = require('../../src/conexao');
+const Turma = require('../../src/model/turma');
 
-jest.mock('../src/conexao');
+jest.mock('../../src/conexao');
 
 beforeAll(() => { //remove msg de erros no console
     jest.spyOn(console, 'error').mockImplementation(() => {});

@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "668dfb07-0381-403f-8a2a-f5ffd1d815cf",
+		"name": "Testes de API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34624549"
+	},
+	"item": [
+		{
+			"name": "aluno",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"N_matricula\": 12345,\r\n  \"id_turma\": 1,\r\n  \"nome_aluno\": \"Nome do Aluno\",\r\n  \"data_nascimento\": \"2000-01-01\",\r\n  \"sexo\": \"M\",\r\n  \"telefone\": \"(00) 1234-5678\",\r\n  \"cpf\": \"123.456.789-00\",\r\n  \"rg\": \"1234567\",\r\n  \"endereco\": \"Endereço do Aluno\",\r\n  \"nome_pai\": \"Nome do Pai\",\r\n  \"cpf_pai\": \"987.654.321-00\",\r\n  \"nome_mae\": \"Nome da Mãe\",\r\n  \"cpf_mae\": \"987.654.321-00\",\r\n  \"certidao\": \"1234567890\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/alunos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aluno",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/alunos/Solano",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"alunos",
+						"Solano"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "materias",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id_materia\": null,\r\n    \"id_professor\": 5,\r\n    \"nome_materia\": \"Nome da Matéria\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/materias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"materias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "materias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/materias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"materias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id_nota\": null,\r\n  \"N_matricula\": 20220001,\r\n  \"id_materia\": 7,\r\n  \"nota\": 8.5,\r\n  \"data_nota\": \"2024-05-10\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/notas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notas",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id_nota\": 1,\r\n  \"nota\": 9.0 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/notas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/notas/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notas",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "professor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id_professor\": null,\r\n  \"nome_professor\": \"Nome do Professor\",\r\n  \"data_nascimento\": \"2000-01-01\",\r\n  \"cpf\": \"123.456.789-00\",\r\n  \"rg\": \"1234567\",\r\n  \"endereco_residencial\": \"Endereço do Professor\",\r\n  \"telefone_fixo\": \"(00) 1234-5678\",\r\n  \"telefone_celular\": \"(00) 98765-4321\",\r\n  \"email\": \"email@example.com\",\r\n  \"nivel_formacao\": \"Nível de Formação\",\r\n  \"instituicao_formacao\": \"Instituição de Formação\",\r\n  \"cursos_complementares\": \"Cursos Complementares\",\r\n  \"areas_especializacao\": \"Áreas de Especialização\",\r\n  \"data_admissao\": \"2024-05-10\",\r\n  \"carga_horaria\": 40,\r\n  \"disciplinas_lecionadas\": \"Disciplinas Lecionadas\",\r\n  \"horario_trabalho\": \"Horário de Trabalho\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/professores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"professores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "professor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/professores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"professores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "turma",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome_turma\": \"Nome da Turma\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/turmas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"turmas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add aluno a turma",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"N_matricula\": 20220001\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/turmas/1/alunos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"turmas",
+						"1",
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "turma",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/turmas/1235",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"turmas",
+						"1235"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "turma",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/turmas/1/alunos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"turmas",
+						"1",
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"exemplo@example.com\",\r\n  \"nome\": null,\r\n  \"senha\": \"senha123\",\r\n  \"permissao\": null\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

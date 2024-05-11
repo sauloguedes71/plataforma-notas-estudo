@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Conexao = require('./src/conexao');
 const Aluno = require('./src/model/aluno');
 const Materia = require('./src/model/materia');
 const Nota = require('./src/model/nota');
@@ -9,9 +8,8 @@ const Turma = require('./src/model/turma');
 const Usuario = require('./src/model/usuario');
 
 const app = express();
-const conexao = new Conexao();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Middleware para tratamento de erros
 function errorHandler(err, req, res, next) {
@@ -21,7 +19,8 @@ function errorHandler(err, req, res, next) {
 
 // Rotas para Alunos
 app.post('/alunos', (req, res) => {
-  const aluno = new Aluno(req.body);
+  const { N_matricula, id_turma, nome_aluno, data_nascimento, sexo, telefone, cpf, rg, endereco, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao } = req.body;
+  const aluno = new Aluno(N_matricula, id_turma, nome_aluno, data_nascimento, sexo, telefone, cpf, rg, endereco, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao);
   aluno.adicionarAluno()
     .then(id => res.status(201).json({ id }))
     .catch(err => res.status(500).send(err.message));
@@ -37,7 +36,8 @@ app.get('/alunos/:nome', (req, res) => {
 
 // Rotas para Matérias
 app.post('/materias', (req, res) => {
-  const materia = new Materia(req.body);
+  const { id_materia, id_professor, nome_materia } = req.body;
+  const materia = new Materia(id_materia, id_professor, nome_materia);
   materia.adicionarMateria()
     .then(id => res.status(201).json({ id }))
     .catch(err => res.status(500).send(err.message));
@@ -50,25 +50,37 @@ app.get('/materias', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-// Rotas para Notas
+
+// Rotas para Notas 
 app.post('/notas',  (req, res) => {
-  const nota = new Nota(req.body);
-  nota.adicionarNota()
+  const { id_nota, N_matricula, id_materia, nota, data_nota } = req.body;
+  const  novaNota = new Nota(id_nota, N_matricula, id_materia, nota, data_nota);
+  novaNota.adicionarNota()
     .then(id => res.status(201).json({ id }))
     .catch(err => res.status(500).send(err.message));
 });
 
+app.put('/notas', (req, res) => {
+  const { id_nota, nota } = req.body;
+  const notaatualizada = new Nota(id_nota, null, null, nota, null); //testado e fucionando 
+  notaatualizada.mudarNota()
+  .then(id => res.status(201).json({ id }))
+  .catch(err => res.status(500).send(err.message));
+});
+
 app.get('/notas/:materia', (req, res) => {
-  const materia = req.params.materia;
+  const id_materia = req.params.materia;
   const nota = new Nota();
-  nota.verNotas(materia)
+  nota.verNotas(id_materia)
     .then(notas => res.status(200).json(notas))
     .catch(err => res.status(500).send(err.message));
 });
 
+
 // Rotas para Professores
 app.post('/professores', (req, res) => {
-  const professor = new Professor(req.body);
+  const { id_professor, nome_professor, data_nascimento, cpf, rg, endereco_residencial, telefone_fixo, telefone_celular, email, nivel_formacao, instituicao_formacao, cursos_complementares, areas_especializacao, data_admissao, carga_horaria, disciplinas_lecionadas, horario_trabalho } = req.body;
+  const professor = new Professor(id_professor, nome_professor, data_nascimento, cpf, rg, endereco_residencial, telefone_fixo, telefone_celular, email, nivel_formacao, instituicao_formacao, cursos_complementares, areas_especializacao, data_admissao, carga_horaria, disciplinas_lecionadas, horario_trabalho);
   professor.adicionarProfessor()
     .then(id => res.status(201).json({ id }))
     .catch(err => res.status(500).send(err.message));
@@ -83,42 +95,43 @@ app.get('/professores', (req, res) => {
 
 // Rotas para Turmas
 app.post('/turmas', (req, res) => {
-  const turma = new Turma(req.body);
+  const { nome_turma } = req.body;
+  const turma = new Turma(nome_turma);
   turma.adicionarTurma()
     .then(id => res.status(201).json({ id }))
     .catch(err => res.status(500).send(err.message));
 });
 
 app.post('/turmas/:id/alunos', (req, res) => {
-  const { id } = req.params;
-  const { alunoId } = req.body;
+  const  id_turma  = parseInt(req.params.id);
+  const { N_matricula } = req.body;
   const turma = new Turma();
-  turma.adicionarAlunoTurma(id, alunoId)
+  turma.adicionarAlunoTurma(id_turma, N_matricula)
     .then(() => res.status(200).send('Aluno adicionado à turma com sucesso'))
     .catch(err => res.status(500).send(err.message));
 });
 
-app.delete('/turmas/:id/alunos/:alunoId', (req, res) => {
-  const { id, alunoId } = req.params;
+app.delete('/turmas/:N_matricula', (req, res) => {
+  const N_matricula  = parseInt(req.params.N_matricula);
   const turma = new Turma();
-  turma.removerAlunoTurma(id, alunoId)
+  turma.removerAlunoTurma(N_matricula)
     .then(() => res.status(200).send('Aluno removido da turma com sucesso'))
     .catch(err => res.status(500).send(err.message));
 });
 
 app.get('/turmas/:id/alunos', (req, res) => {
-  const { id } = req.params;
+  const id_turma = parseInt(req.params.id);
   const turma = new Turma();
-  turma.verAlunos(id)
+  turma.verAlunos(id_turma)
     .then(alunos => res.status(200).json(alunos))
     .catch(err => res.status(500).send(err.message));
 });
 
 // Rotas para Usuários (exemplo de autenticação)
 app.post('/login',(req, res) => {
-  const { email, senha } = req.body;
-  const usuario = new Usuario(email, senha);
-  usuario.login()
+  const { email, senha} = req.body;
+  const usuario = new Usuario();
+  usuario.login(email, senha)
     .then(user => res.status(200).json(user))
     .catch(err => res.status(500).send(err.message));
 });

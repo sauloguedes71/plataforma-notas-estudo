@@ -1,8 +1,8 @@
-const Materia = require('../src/model/materia');
-const Conexao = require('../src/conexao');
+const Materia = require('../../src/model/materia');
+const Conexao = require('../../src/conexao');
 
 // Mock para Conexao
-jest.mock('../src/conexao');
+jest.mock('../../src/conexao');
 
 
 beforeAll(() => { //remove msg de erros no console
@@ -53,7 +53,7 @@ describe('Materia', () => {
       callback(null, { insertId: 1 });
     });
 
-    const id = await materia.adicioanarMateria();
+    const id = await materia.adicionarMateria();
 
     expect(id).toBe(1);
     expect(Conexao.prototype.query).toHaveBeenCalledTimes(1); // Garantindo que seja chamado apenas uma vez
@@ -80,6 +80,6 @@ describe('Materia', () => {
       callback(new Error('Erro no banco de dados'));
     });
 
-    await expect(materia.adicioanarMateria()).rejects.toThrow('Erro no banco de dados');
+    await expect(materia.adicionarMateria()).rejects.toThrow('Erro no banco de dados');
   });
 });

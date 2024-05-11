@@ -1,6 +1,6 @@
 const Conexao = require('../conexao');
 class Aluno {
-    constructor(nome_aluno, data_nascimento, cpf, rg, sexo, endereco, telefone, N_matricula, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao, id_turma) {
+    constructor(N_matricula, id_turma,nome_aluno, data_nascimento, sexo, telefone, cpf, rg, endereco, nome_pai, cpf_pai, nome_mae, cpf_mae, certidao) {
       this.nome_aluno = nome_aluno;
       this.data_nascimento = data_nascimento;
       this.cpf = cpf;

@@ -1,7 +1,7 @@
-const Usuario = require('../src/model/usuario');
-const Conexao = require('../src/conexao');
+const Usuario = require('../../src/model/usuario');
+const Conexao = require('../../src/conexao');
 
-jest.mock('../src/conexao');
+jest.mock('../../src/conexao');
 
 beforeAll(() => { //remove msg de erros no console
     jest.spyOn(console, 'error').mockImplementation(() => {});

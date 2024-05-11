@@ -1,10 +1,10 @@
 const Conexao = require('../conexao')
 
 class Nota {
-    constructor(id_nota, id_materia, n_matricula, nota, data_nota) {
+    constructor(id_nota, N_matricula, id_materia, nota, data_nota) {
         this.id_materia = id_materia
         this.id_nota = id_nota
-        this.n_matricula = n_matricula
+        this.N_matricula = N_matricula
         this.nota = nota
         this.data_nota = data_nota
         this.conexao = new Conexao()
@@ -13,9 +13,9 @@ class Nota {
      async adicionarNota() { 
         this.conexao.conectar()
         
-        const sql = `isert into (N_matricula, id_materia, nota, data_nota) values (?, ?, ?, ?)`
+        const sql = `insert into nota (N_matricula, id_materia, nota, data_nota) values (?, ?, ?, ?)`
         const valores = [
-            this.n_matricula,
+            this.N_matricula,
             this.id_materia,
             this.nota,
             this.data_nota
@@ -42,12 +42,8 @@ class Nota {
     mudarNota() { 
         this.conexao.conectar();
 
-        const sql = `UPDATE nota SET nota = ? WHERE id_materia = ? AND N_matricula = ?`;
-        const valores = [
-            this.nota,
-            this.id_materia,
-            this.n_matricula
-        ];
+        const sql = `UPDATE nota SET nota = ? WHERE id_nota = ? `;
+        const valores = [this.nota, this.id_nota ];
     
         return new Promise((resolve, reject) => {
             this.conexao.query(sql, valores, (err, resultado) => {
@@ -71,11 +67,11 @@ class Nota {
     }
 
     //consultar notas de materias no banco de dados 
-    async verNotas(materia){
+    async verNotas(id_materia){
         this.conexao.conectar()
 
-        const sql = `SELECT * FROM nota WHERE id_materia LIKE ?`
-        const valor = [`%${materia}%`]
+        const sql = `SELECT * FROM nota WHERE id_materia = ?`
+        const valor = [id_materia]
 
         return new Promise((resolve, reject) => {
             this.conexao.query(sql, valor, (err, resultados) => {            

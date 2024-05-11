@@ -29,18 +29,11 @@ class Turma {
     }
 
     //ADC um aluno axistente a uma turma existente no banco de dados
-    async adicionarAlunoTurma(alunoid){
+    async adicionarAlunoTurma(id_turma, N_matricula){
         this.conexao.conectar();
-        const sql = `UPDATE aluno a
-                     SET a.id_turma = (
-                         SELECT t.id_turma
-                         FROM turma t
-                         WHERE t.nome_turma = ?
-                     )
-                     WHERE a.id_turma IS NULL
-                       AND a.id_aluno = ?;`;
-        const valores = [this.nome_turma, alunoid];
-
+        const sql = `UPDATE aluno a SET a.id_turma = (SELECT t.id_turma FROM turma t WHERE t.id_turma = ? )  WHERE a.id_turma IS NULL AND a.N_matricula = ?;`;
+        const valores = [id_turma, N_matricula];
+   
         return new Promise((resolve, reject) => {
             this.conexao.query(sql, valores, (err, resultado) => {
                 if (err) {
@@ -54,10 +47,13 @@ class Turma {
         });
     }
     // remove a chave estrangeira no banco de dados 
-    async removerAlunoTurma(alunoId){
+    async removerAlunoTurma(N_matricula){
         this.conexao.conectar();
-        const sql = `UPDATE aluno SET id_turma = NULL WHERE id_aluno = ?;`;
-        const valor = [alunoId];
+        const sql = `UPDATE aluno SET id_turma = NULL WHERE N_matricula = ?;`;
+        const valor = [N_matricula];
+
+        console.log(sql)
+        console.log(valor)
 
         return new Promise((resolve, reject) => {
             this.conexao.query(sql, valor, (err, resultado) => {
@@ -73,10 +69,10 @@ class Turma {
     }
 
     // ver todos os alunos que tem o id_turma correspondente
-    async verAlunos(){
+    async verAlunos(id_turma){
         this.conexao.conectar();
-        const sql = `SELECT * FROM aluno WHERE id_turma = (SELECT id_turma FROM turma WHERE nome_turma = ?);`;
-        const valor = [this.nome_turma];
+        const sql = `SELECT * FROM aluno WHERE id_turma = ?;`;
+        const valor = [id_turma];
 
         return new Promise((resolve, reject) => {
             this.conexao.query(sql, valor, (err, resultado) => {

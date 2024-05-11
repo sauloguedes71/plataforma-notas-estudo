@@ -1,7 +1,7 @@
 const Conexao = require("../conexao");
 
 class Materia {
-    constructor(id_materia, nome_materia, id_professor) {
+    constructor(id_materia, id_professor, nome_materia ) {
       this.id_materia = id_materia
       this.nome_materia = nome_materia;     
       this.id_professor = id_professor
@@ -28,7 +28,7 @@ class Materia {
       )     
     }
 
-     async adicioanarMateria(){ //adc matéria ao banco de dados
+     async adicionarMateria(){ //adc matéria ao banco de dados
       this.conexao.conectar()
 
       const sql = `insert into materia(nome_materia, id_professor) values ( ?, ?);`
