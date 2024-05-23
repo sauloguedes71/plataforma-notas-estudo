@@ -1,72 +1,97 @@
-const Usuario = require('../../src/model/usuario');
-const Conexao = require('../../src/conexao');
+const { PrismaClient } = require('@prisma/client');
+const Usuario = require('../../src/model/usuario'); 
 
-jest.mock('../../src/conexao');
+jest.mock('@prisma/client', () => {
+  const mPrismaClient = {
+    usuario: {
+      findUnique: jest.fn(),
+    },
+  };
+  return {
+    PrismaClient: jest.fn(() => mPrismaClient),
+  };
+});
 
 beforeAll(() => { //remove msg de erros no console
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-});
-  
-  afterAll(() => {
-    console.error.mockRestore();
+  jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
 describe('Usuario', () => {
+  let prisma;
   let usuario;
 
-  beforeEach(() => {
-    Conexao.mockClear(); // Limpa todos os mocks antes de cada teste
-
-    // Instanciando um novo usuário com informações de exemplo
-    usuario = new Usuario('usuario@example.com', 'Usuário Teste', 'senha123', 'admin');
+  beforeAll(() => {
+    prisma = new PrismaClient();
+    usuario = new Usuario();
   });
 
-  it('deve realizar login com sucesso', async () => {
-    const mockConectar = jest.fn();
-    const mockQuery = jest.fn((sql, valores, callback) => {
-      callback(null, [{ email: 'usuario@example.com', nome: 'Usuário Teste', permissao: 'admin' }]);
-    });
-
-    usuario.conexao.conectar = mockConectar;
-    usuario.conexao.query = mockQuery;
-
-    await expect(usuario.login()).resolves.toEqual([{ email: 'usuario@example.com', nome: 'Usuário Teste', permissao: 'admin' }]);
-    expect(mockConectar).toHaveBeenCalled(); // Verifica se conectar foi chamado
-    expect(mockQuery).toHaveBeenCalled(); // Verifica se query foi chamado
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('deve falhar ao realizar login com informações incorretas', async () => {
-    const mockConectar = jest.fn();
-    const mockQuery = jest.fn((sql, valores, callback) => {
-      callback(null, []); // Simulando resultado vazio
+  test('login bem-sucedido', async () => {
+    const mockUser = {
+      email: 'teste@exemplo.com',
+      nome: 'Teste',
+      permissao: 'admin',
+    };
+
+    prisma.usuario.findUnique.mockResolvedValue(mockUser);
+
+    const result = await usuario.login('teste@exemplo.com', 'senha123');
+
+    expect(result).toEqual(mockUser);
+    expect(prisma.usuario.findUnique).toHaveBeenCalledWith({
+      where: {
+        email: 'teste@exemplo.com',
+        senha: 'senha123',
+      },
+      select: {
+        email: true,
+        nome: true,
+        permissao: true,
+      },
     });
-  
-    usuario.conexao.conectar = mockConectar;
-    usuario.conexao.query = mockQuery;
-  
-    try {
-      await usuario.login();
-      // Se não houver exceção, o teste falhará
-      expect(true).toBeFalsy(); // Garante que o teste falhe se não houver exceção
-    } catch (error) {
-      expect(error).toEqual("Nome de usuário ou senha incorretos.");
-      expect(mockConectar).toHaveBeenCalled(); // Verifica se conectar foi chamado
-      expect(mockQuery).toHaveBeenCalled(); // Verifica se query foi chamado
-    }
   });
-  
 
-  it('deve lidar com erros ao realizar login', async () => {
-    const mockConectar = jest.fn();
-    const mockQuery = jest.fn((sql, valores, callback) => {
-      callback(new Error('Erro ao consultar banco de dados')); // Simulando erro no banco de dados
+  test('login falhou devido a credenciais incorretas', async () => {
+    prisma.usuario.findUnique.mockResolvedValue(null);
+
+    await expect(usuario.login('teste@exemplo.com', 'senha123')).rejects.toThrow(
+      'Nome de usuário ou senha incorretos.'
+    );
+
+    expect(prisma.usuario.findUnique).toHaveBeenCalledWith({
+      where: {
+        email: 'teste@exemplo.com',
+        senha: 'senha123',
+      },
+      select: {
+        email: true,
+        nome: true,
+        permissao: true,
+      },
     });
+  });
 
-    usuario.conexao.conectar = mockConectar;
-    usuario.conexao.query = mockQuery;
+  test('erro ao consultar o banco de dados', async () => {
+    const errorMessage = 'Erro ao consultar';
+    prisma.usuario.findUnique.mockRejectedValue(new Error(errorMessage));
 
-    await expect(usuario.login()).rejects.toThrow('Erro ao consultar banco de dados');
-    expect(mockConectar).toHaveBeenCalled(); // Verifica se conectar foi chamado
-    expect(mockQuery).toHaveBeenCalled(); // Verifica se query foi chamado
+    await expect(usuario.login('teste@exemplo.com', 'senha123')).rejects.toThrow(
+      errorMessage
+    );
+
+    expect(prisma.usuario.findUnique).toHaveBeenCalledWith({
+      where: {
+        email: 'teste@exemplo.com',
+        senha: 'senha123',
+      },
+      select: {
+        email: true,
+        nome: true,
+        permissao: true,
+      },
+    });
   });
 });

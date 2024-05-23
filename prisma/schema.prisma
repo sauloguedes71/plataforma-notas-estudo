@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Aluno {
+  N_matricula        Int      @id @default(autoincrement())
+  id_turma           Int?
+  nome_aluno         String
+  data_nascimento    DateTime
+  sexo               SexoEnum 
+  telefone           String
+  cpf                String   @unique
+  rg                 String
+  endereco           String
+  nome_pai           String
+  cpf_pai            String
+  nome_mae           String
+  cpf_mae            String
+  certidao           String
+  turma              Turma?   @relation(fields: [id_turma], references: [id_turma])
+  nota               Nota[]
+
+  @@index([id_turma])
+}
+
+enum SexoEnum {
+  M
+  F
+  Outro
+}
+
+model Materia {
+  id_materia     Int       @id @default(autoincrement())
+  nome_materia   String
+  id_professor   Int
+  professor      Professor @relation(fields: [id_professor], references: [id_professor])
+  nota           Nota[]
+
+  @@index([id_professor])
+}
+
+model Nota {
+  id_nota       Int      @id @default(autoincrement())
+  N_matricula   Int
+  id_materia    Int
+  nota          Float
+  data_nota     DateTime
+  aluno         Aluno    @relation(fields: [N_matricula], references: [N_matricula])
+  materia       Materia  @relation(fields: [id_materia], references: [id_materia])
+
+  @@index([N_matricula])
+  @@index([id_materia])
+}
+
+model Professor {
+  id_professor             Int       @id @default(autoincrement())
+  nome_professor           String
+  data_nascimento          DateTime
+  cpf                      String    @unique
+  rg                       String
+  endereco_residencial     String
+  telefone_fixo            String
+  telefone_celular         String
+  email                    String    @unique 
+  nivel_formacao           String
+  instituicao_formacao     String
+  cursos_complementares    String
+  areas_especializacao     String
+  data_admissao            DateTime
+  carga_horaria            Int
+  disciplinas_lecionadas   String
+  horario_trabalho         String
+  materia                  Materia[]
+
+  @@index([email])
+}
+
+model Turma {
+  id_turma     Int     @id @default(autoincrement())
+  nome_turma   String
+  aluno        Aluno[]
+}
+
+model Usuario {
+  email     String @id
+  nome      String
+  senha     String
+  permissao String?
+}

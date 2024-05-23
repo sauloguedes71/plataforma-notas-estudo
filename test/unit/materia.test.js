@@ -1,85 +1,84 @@
+const { PrismaClient } = require('@prisma/client');
 const Materia = require('../../src/model/materia');
-const Conexao = require('../../src/conexao');
 
-// Mock para Conexao
-jest.mock('../../src/conexao');
-
+jest.mock('@prisma/client', () => {
+  const mPrismaClient = {
+    materia: {
+      findMany: jest.fn(),
+      create: jest.fn(),
+    },
+  };
+  return {
+    PrismaClient: jest.fn(() => mPrismaClient),
+  };
+});
 
 beforeAll(() => { //remove msg de erros no console
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
-afterAll(() => {
-  console.error.mockRestore();
-});
-
 describe('Materia', () => {
+  let prisma;
   let materia;
 
-  beforeEach(() => {
-    // Limpa todos os mocks antes de cada teste
-    Conexao.mockClear();
-
-    materia = new Materia(
-      1,
-      'Matemática',
-      1
-    );
+  beforeAll(() => {
+    prisma = new PrismaClient();
+    materia = new Materia();
   });
 
-  it('deve consultar as matérias', async () => {
-    // Mock para o método conectar
-    Conexao.prototype.conectar.mockImplementationOnce(() => {});
-
-    // Mock para o método query com retorno de sucesso
-    Conexao.prototype.query.mockImplementationOnce((sql, callback) => {
-      callback(null, [{ id_materia: 1, nome_materia: 'Matemática', id_professor: 1 }]);
-    });
-
-    const resultados = await materia.verMaterias();
-
-    expect(resultados).toEqual([{ id_materia: 1, nome_materia: 'Matemática', id_professor: 1 }]);
-    expect(Conexao.prototype.query).toHaveBeenCalledTimes(1); // Garantindo que seja chamado apenas uma vez
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('deve adicionar uma matéria', async () => {
+  test('verMaterias - retorna uma lista vazia quando não houver matérias', async () => {
+    prisma.materia.findMany.mockResolvedValue([]);
 
-    Conexao.prototype.query.mockClear();
-    // Mock para o método conectar
-    Conexao.prototype.conectar.mockImplementationOnce(() => {});
+    const result = await materia.verMaterias();
 
-    // Mock para o método query com retorno de sucesso
-    Conexao.prototype.query.mockImplementationOnce((sql, valores, callback) => {
-      callback(null, { insertId: 1 });
-    });
-
-    const id = await materia.adicionarMateria();
-
-    expect(id).toBe(1);
-    expect(Conexao.prototype.query).toHaveBeenCalledTimes(1); // Garantindo que seja chamado apenas uma vez
+    expect(result).toEqual([]);
+    expect(prisma.materia.findMany).toHaveBeenCalledTimes(1);
   });
 
-  it('deve lidar com erros ao consultar matérias', async () => {
-    // Mock para o método conectar
-    Conexao.prototype.conectar.mockImplementationOnce(() => {});
+  test('adicionarMateria - adiciona uma nova matéria', async () => {
+    const mockNovaMateria = {
+      id_materia: 1,
+      nome_materia: 'Matemática',
+      id_professor: 'id_do_professor',
+    };
 
-    // Mock para o método query com retorno de erro
-    Conexao.prototype.query.mockImplementationOnce((sql, callback) => {
-      callback(new Error('Erro no banco de dados'));
+    prisma.materia.create.mockResolvedValue(mockNovaMateria);
+
+    const result = await materia.adicionarMateria();
+
+    expect(result).toBe(1);
+    expect(prisma.materia.create).toHaveBeenCalledWith({
+      data: {
+        nome_materia: materia.nome_materia,
+        id_professor: materia.id_professor,
+      },
     });
-
-    await expect(materia.verMaterias()).rejects.toThrow('Erro no banco de dados');
   });
 
-  it('deve lidar com erros ao adicionar matéria', async () => {
-    // Mock para o método conectar
-    Conexao.prototype.conectar.mockImplementationOnce(() => {});
+  test('adicionarMateria - lança um erro ao adicionar uma nova matéria', async () => {
+    const errorMessage = 'Erro ao adicionar matéria';
+    prisma.materia.create.mockRejectedValue(new Error(errorMessage));
 
-    // Mock para o método query com retorno de erro
-    Conexao.prototype.query.mockImplementationOnce((sql, valores, callback) => {
-      callback(new Error('Erro no banco de dados'));
+    await expect(materia.adicionarMateria()).rejects.toThrow(errorMessage);
+
+    expect(prisma.materia.create).toHaveBeenCalledWith({
+      data: {
+        nome_materia: materia.nome_materia,
+        id_professor: materia.id_professor,
+      },
     });
+  });
 
-    await expect(materia.adicionarMateria()).rejects.toThrow('Erro no banco de dados');
+  test('verMaterias - lança um erro ao consultar o banco de dados', async () => {
+    const errorMessage = 'Erro ao consultar';
+    prisma.materia.findMany.mockRejectedValue(new Error(errorMessage));
+
+    await expect(materia.verMaterias()).rejects.toThrow(errorMessage);
+
+    expect(prisma.materia.findMany).toHaveBeenCalledTimes(1);
   });
 });

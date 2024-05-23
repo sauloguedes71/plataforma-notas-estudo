@@ -50,7 +50,6 @@ app.get('/materias', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-
 // Rotas para Notas 
 app.post('/notas',  (req, res) => {
   const { id_nota, N_matricula, id_materia, nota, data_nota } = req.body;

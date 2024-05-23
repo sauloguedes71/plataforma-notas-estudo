@@ -1,92 +1,72 @@
-const Conexao = require('../conexao')
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 class Nota {
     constructor(id_nota, N_matricula, id_materia, nota, data_nota) {
-        this.id_materia = id_materia
-        this.id_nota = id_nota
-        this.N_matricula = N_matricula
-        this.nota = nota
-        this.data_nota = data_nota
-        this.conexao = new Conexao()
-    }
-    //adc nota do aluno ao banco de dados
-     async adicionarNota() { 
-        this.conexao.conectar()
-        
-        const sql = `insert into nota (N_matricula, id_materia, nota, data_nota) values (?, ?, ?, ?)`
-        const valores = [
-            this.N_matricula,
-            this.id_materia,
-            this.nota,
-            this.data_nota
-        ]
-        
-        return new Promise((resolve, reject) => {
-            this.conexao.query(sql, valores, (err, resultado) => {        
-                if (err) {
-                    console.error('Erro ao adicionar nota:', err);
-                    reject(err);
-                    return;
-                }
-                console.log('nota adicionada com sucesso. ID:', resultado.insertId);
-      
-                this.conexao.fecharConexao(); 
-      
-                resolve(resultado.insertId);
-            });
-          });
-
-    }
-    
-    // altera a nota no banco de dados 
-    mudarNota() { 
-        this.conexao.conectar();
-
-        const sql = `UPDATE nota SET nota = ? WHERE id_nota = ? `;
-        const valores = [this.nota, this.id_nota ];
-    
-        return new Promise((resolve, reject) => {
-            this.conexao.query(sql, valores, (err, resultado) => {
-                if (err) {
-                    console.error('Erro ao atualizar nota:', err);
-                    reject(err);
-                    return;
-                }
-    
-                if (resultado.affectedRows > 0) {
-                    console.log('Nota atualizada com sucesso.');
-                    this.conexao.fecharConexao();
-                    resolve(true);
-                } else {
-                    console.log('Nenhuma nota encontrada para atualizar.');
-                    this.conexao.fecharConexao();
-                    resolve(false);
-                }
-            });
-        }); 
+        this.id_nota = id_nota;
+        this.N_matricula = N_matricula;
+        this.id_materia = id_materia;
+        this.nota = nota;
+        this.data_nota = new Date (data_nota);
     }
 
-    //consultar notas de materias no banco de dados 
-    async verNotas(id_materia){
-        this.conexao.conectar()
-
-        const sql = `SELECT * FROM nota WHERE id_materia = ?`
-        const valor = [id_materia]
-
-        return new Promise((resolve, reject) => {
-            this.conexao.query(sql, valor, (err, resultados) => {            
-                if (err) {
-                    console.error('Erro ao consultar notas:', err);
-                    reject(err);
-                    return;
-                }
-    
-                this.conexao.fecharConexao();
-                
-                resolve(resultados);
+    // Adicionar nota do aluno ao banco de dados
+    async adicionarNota() {
+        try {
+            const novaNota = await prisma.nota.create({
+                data: {
+                    N_matricula: this.N_matricula,
+                    id_materia: this.id_materia,
+                    nota: this.nota,
+                    data_nota: new Date(this.data_nota),
+                },
             });
-        });
+            console.log('Nota adicionada com sucesso. ID:', novaNota.id_nota);
+            return novaNota.id_nota;
+        } catch (error) {
+            console.error('Erro ao adicionar nota:', error);
+            throw error;
+        }
+    }
+
+    // Alterar a nota no banco de dados
+    async mudarNota() {
+        try {
+            const notaAtualizada = await prisma.nota.update({
+                where: {
+                    id_nota: this.id_nota,
+                },
+                data: {
+                    nota: this.nota,
+                },
+            });
+            console.log('Nota atualizada com sucesso.');
+            return true;
+        } catch (error) {
+            if (error.code === 'P2025') {
+                console.log('Nenhuma nota encontrada para atualizar.');
+                return false;
+            } else {
+                console.error('Erro ao atualizar nota:', error);
+                throw error;
+            }
+        }
+    }
+
+    // Consultar notas de materias no banco de dados
+    async verNotas(id_materia) {
+        try {
+            const notas = await prisma.nota.findMany({
+                where: {
+                    id_materia: parseInt(id_materia),
+                },
+            });
+            return notas;
+        } catch (error) {
+            console.error('Erro ao consultar notas:', error);
+            throw error;
+        }
     }
 }
 
-module.exports = Nota
+module.exports = Nota;
