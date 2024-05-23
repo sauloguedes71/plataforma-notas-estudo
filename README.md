@@ -13,6 +13,9 @@ Este é um projeto desenvolvido em JavaScript de uma plataforma de notas e estud
 ## Tecnologias Utilizadas
 
 - JavaScript
+- Node.js
+- Express.js
+- MySQL
 
 ## Autores
 
