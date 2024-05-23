@@ -16,6 +16,7 @@ Este é um projeto desenvolvido em JavaScript de uma plataforma de notas e estud
 - Node.js
 - Express.js
 - MySQL
+- Prisma
 
 ## Autores
 
