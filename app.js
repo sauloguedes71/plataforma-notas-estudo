@@ -61,7 +61,7 @@ app.post('/notas',  (req, res) => {
 
 app.put('/notas', (req, res) => {
   const { id_nota, nota } = req.body;
-  const notaatualizada = new Nota(id_nota, null, null, nota, null); //testado e fucionando 
+  const notaatualizada = new Nota(id_nota, null, null, nota, null); 
   notaatualizada.mudarNota()
   .then(id => res.status(201).json({ id }))
   .catch(err => res.status(500).send(err.message));
@@ -126,7 +126,7 @@ app.get('/turmas/:id/alunos', (req, res) => {
     .catch(err => res.status(500).send(err.message));
 });
 
-// Rotas para Usuários (exemplo de autenticação)
+// Rotas para Usuários 
 app.post('/login',(req, res) => {
   const { email, senha} = req.body;
   const usuario = new Usuario();
@@ -143,3 +143,5 @@ const PORTA = 3000;
 app.listen(PORTA, () => {
   console.log(`Servidor Express rodando na porta ${PORTA}`);
 });
+
+module.exports = app;
