@@ -140,8 +140,20 @@ app.post('/login',(req, res) => {
 app.use(errorHandler);
 
 const PORTA = 3000;
-app.listen(PORTA, () => {
+const servidor = app.listen(PORTA, () => {
   console.log(`Servidor Express rodando na porta ${PORTA}`);
 });
 
-module.exports = app;
+
+function fecharServidor() {
+  return new Promise((resolve, reject) => {
+    servidor.close((err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(); 
+    });
+  });
+}
+
+module.exports = { app, fecharServidor };

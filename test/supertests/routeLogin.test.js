@@ -1,6 +1,6 @@
 // login.test.js
 const request = require('supertest');
-const app = require('../../app.js'); // Supondo que seu arquivo app.js esteja no mesmo diretório
+const {app, fecharServidor} = require('../../app.js'); 
 
 // Mock da classe Usuario
 jest.mock('../../src/model/usuario', () => {
@@ -15,8 +15,13 @@ jest.mock('../../src/model/usuario', () => {
   });
 });
 
+afterAll(async () => {
+    await fecharServidor(); 
+    jest.resetAllMocks();
+});
+
 describe('POST /login', () => {
-  it('should log in a user', async () => {
+  it('deve fazer login como usuário', async () => {
     const response = await request(app)
       .post('/login')
       .send({ email: 'test@example.com', senha: 'password123' });
@@ -30,7 +35,7 @@ describe('POST /login', () => {
     });
   });
 
-  it('should handle login failure', async () => {
+  it('deve lidar com falha de login', async () => {
     // Modificando o mock para simular um erro de login
     require('../../src/model/usuario.js').mockImplementationOnce(() => {
       return {

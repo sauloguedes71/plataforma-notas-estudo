@@ -12,15 +12,13 @@ jest.mock('@prisma/client', () => {
   };
 });
 
-beforeAll(() => { //remove msg de erros no console
-  jest.spyOn(console, 'error').mockImplementation(() => {});
-});
 
 describe('Usuario', () => {
   let prisma;
   let usuario;
 
   beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     prisma = new PrismaClient();
     usuario = new Usuario();
   });

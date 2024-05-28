@@ -13,15 +13,13 @@ jest.mock('@prisma/client', () => {
   };
 });
 
-beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation(() => {});
-});
 
 describe('Aluno', () => {
   let prisma;
   let aluno;
 
   beforeAll(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     prisma = new PrismaClient();
   });
 
