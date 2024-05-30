@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Aluno = require('./src/model/aluno');
-const Materia = require('./src/model/materia');
-const Nota = require('./src/model/nota');
-const Professor = require('./src/model/professor');
-const Turma = require('./src/model/turma');
-const Usuario = require('./src/model/usuario');
+const Aluno = require('../src/model/aluno');
+const Materia = require('../src/model/materia');
+const Nota = require('../src/model/nota');
+const Professor = require('../src/model/professor');
+const Turma = require('../src/model/turma');
+const Usuario = require('../src/model/usuario');
 
 const app = express();
 

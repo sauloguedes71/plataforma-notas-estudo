@@ -1,6 +1,6 @@
 // login.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../app.js'); 
+const {app, fecharServidor} = require('../../routes/app.js'); 
 
 // Mock da classe Usuario
 jest.mock('../../src/model/usuario', () => {
