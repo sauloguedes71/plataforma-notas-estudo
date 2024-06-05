@@ -1,6 +1,6 @@
 // professor.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../../routes/app.js'); 
+const {app, fecharServidor} = require('../../../controller/app.js'); 
 const Professor = require('../../../src/model/professor');
 
 jest.mock('../../../src/model/professor');
