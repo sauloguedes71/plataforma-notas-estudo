@@ -6,9 +6,9 @@ Este é um projeto desenvolvido em JavaScript de uma plataforma de notas e estud
 
 - **Armazenamento de Notas**: Os usuários podem adicionar, visualizar e atualizar suas notas em diferentes disciplinas.
 
-- **Listas de Estudos**: Os usuários podem criar listas de estudos para cada disciplina, adicionando itens de estudo e marcando-os como concluídos.
+- **Adicionar Alunos às Turmas**: Os administradores ou professores podem adicionar alunos a turmas específicas. Isso pode ser feito inserindo os detalhes do aluno, como nome, email, e número de identificação, e associando-os à turma correta.
 
-- **Acompanhamento de Progresso**: A plataforma fornece um resumo do progresso acadêmico dos usuários, incluindo estatísticas de notas e progresso nas listas de estudos.
+- **Criar Turmas e Associar Professores**: Os administradores ou professores podem criar novas turmas e associar um professor a cada turma. Isso envolveria fornecer informações básicas da turma, como nome, código identificador, e horário, e então atribuir um professor responsável por essa turma.
 
 ## Tecnologias Utilizadas
 

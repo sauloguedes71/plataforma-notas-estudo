@@ -63,7 +63,7 @@ app.put('/notas', (req, res) => {
   const { id_nota, nota } = req.body;
   const notaatualizada = new Nota(id_nota, null, null, nota, null); 
   notaatualizada.mudarNota()
-  .then(id => res.status(201).json({ id }))
+  .then(id => res.status(201).json(true))
   .catch(err => res.status(500).send(err.message));
 });
 

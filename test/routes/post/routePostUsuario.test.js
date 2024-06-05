@@ -1,9 +1,9 @@
 // login.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../routes/app.js'); 
+const {app, fecharServidor} = require('../../../controller/app.js'); 
 
 // Mock da classe Usuario
-jest.mock('../../src/model/usuario', () => {
+jest.mock('../../../src/model/usuario', () => {
   return jest.fn().mockImplementation(() => {
     return {
       login: jest.fn().mockResolvedValue({
@@ -37,7 +37,7 @@ describe('POST /login', () => {
 
   it('deve lidar com falha de login', async () => {
     // Modificando o mock para simular um erro de login
-    require('../../src/model/usuario.js').mockImplementationOnce(() => {
+    require('../../../src/model/usuario.js').mockImplementationOnce(() => {
       return {
         login: jest.fn().mockRejectedValue(new Error('Nome de usuário ou senha incorretos.'))
       };
