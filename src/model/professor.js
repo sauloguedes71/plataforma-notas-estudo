@@ -1,7 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+import {PrismaClient} from '@prisma/client'
 const prisma = new PrismaClient();
 
-class Professor {
+export class Professor {
     constructor(id_professor, nome_professor, data_nascimento, cpf, rg, endereco_residencial, telefone_fixo, telefone_celular, email, nivel_formacao, instituicao_formacao, cursos_complementares, areas_especializacao, data_admissao, carga_horaria, disciplinas_lecionadas, horario_trabalho){
         this.id_professor = id_professor;
         this.nome_professor = nome_professor;
@@ -63,4 +63,3 @@ class Professor {
     }
 }
 
-module.exports = Professor;

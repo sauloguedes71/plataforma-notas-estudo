@@ -1,7 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+import {PrismaClient} from '@prisma/client'
 const prisma = new PrismaClient();
 
-class Materia {
+export class Materia {
     constructor(id_materia, id_professor, nome_materia) {
         this.id_materia = id_materia;
         this.nome_materia = nome_materia;
@@ -34,4 +34,4 @@ class Materia {
     }
 }
 
-module.exports = Materia;
+

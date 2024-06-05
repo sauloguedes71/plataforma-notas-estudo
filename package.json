@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon app.js"
+    "dev": "nodemon controller/app.js"
   },
   "keywords": [],
   "author": "",
