@@ -1,7 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+import {PrismaClient} from '@prisma/client'
 const prisma = new PrismaClient();
 
-class Turma {
+export class Turma {
     constructor(nome_turma) {
         this.nome_turma = nome_turma;
     }
@@ -66,4 +66,3 @@ class Turma {
     }
 }
 
-module.exports = Turma;
