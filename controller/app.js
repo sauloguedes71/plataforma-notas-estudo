@@ -6,6 +6,8 @@ const Nota = require('../src/model/nota');
 const Professor = require('../src/model/professor');
 const Turma = require('../src/model/turma');
 const Usuario = require('../src/model/usuario');
+const Faltas = require('../src/model/faltas');
+const Aulas = require('../src/model/aulas');
 
 const app = express();
 
@@ -155,5 +157,67 @@ function fecharServidor() {
     });
   });
 }
+
+// Rota para adicionar uma falta
+app.post('/faltas', async (req, res) => {
+  const { id_falta, N_matricula, id_aula, data_falta, justificativa } = req.body;
+  
+  const falta = new Faltas(id_falta, N_matricula, id_aula, data_falta, justificativa);
+
+  try {
+    await falta.adicionarFalta();
+    res.status(201).json({ message: `Falta  adicionada com sucesso.` });
+  } catch (error) {
+    res.status(500).json({ error: `Erro ao adicionar a falta: ${error.message}` });
+  }
+});
+
+// Rota para visualizar todas as faltas
+app.get('/faltas', async (req, res) => {
+  try {
+    const falta = new Faltas();
+    const faltas = await falta.visualizarFaltas();
+    res.json(faltas);
+  } catch (error) {
+    res.status(500).json({ error: `Erro ao buscar as faltas: ${error.message}` });
+  }
+});
+
+
+// Rota para justificar uma falta
+app.put('/faltas/:id_falta/justificar', async (req, res) => {
+  const { id_falta } = req.params;
+  const { justificativa } = req.body;
+
+  try {
+    await Faltas.justificarFalta(id_falta, justificativa);
+    res.json({ message: `Falta ${id_falta} justificada com sucesso.` });
+  } catch (error) {
+    res.status(500).json({ error: `Erro ao justificar a falta: ${error.message}` });
+  }
+});
+
+app.post('/aulas', async (req, res) => {
+  const { id_aula, data_aulas, horario_inicio, horario_termino, id_materia, id_turma } = req.body;
+  const aula = new Aulas(id_aula, data_aulas, horario_inicio, horario_termino, id_materia, id_turma);
+  try {
+    await aula.adicionarAulas();
+    res.status(201).json({ message: `Aula adicionada com sucesso.` });
+  } catch (error) {
+    res.status(500).json({ error: `Erro ao adicionar a aula: ${error.message}` });
+  }
+});
+
+app.get('/aulas', async (req, res) => {
+  try {
+    const aula = new Aulas();
+    const aulas = await aula.verAulas();
+    res.json(aulas);
+  } catch (error) {
+    res.status(500).json({ error: `Erro ao buscar as aulas: ${error.message}` });
+  }
+});
+
+
 
 module.exports = { app, fecharServidor };
