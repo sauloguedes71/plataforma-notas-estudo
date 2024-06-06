@@ -92,3 +92,22 @@ model Usuario {
   senha     String
   permissao String?
 }
+
+model Aulas {
+  id_aula            Int      @id @default(autoincrement())
+  data_aulas          DateTime
+  horario_inicio  DateTime
+  horario_termino  DateTime
+  id_materia     Int
+  id_turma       Int
+}
+
+model faltas {
+  id_faltas      Int      @id @default(autoincrement())
+  N_matricula   Int
+  id_aula       Int?
+  data_faltas    DateTime
+  justificativa String?
+
+  @@map("faltas")
+}
