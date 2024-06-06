@@ -11,8 +11,8 @@ class Aula {
     // Método para adicionar aulas
     static async adicionarAulas(aula) {
         try {
-            // Aqui você pode adicionar o código para salvar a aula no banco de dados
-            // Por exemplo: await db.save(aula);
+            // Adicionando o código para salvar a aula no banco de dados
+            await db.save(aula);
             console.log(`Aula ${aula.id_aula} adicionada com sucesso.`);
         } catch (error) {
             console.error(`Erro ao adicionar a aula: ${error}`);
@@ -22,10 +22,10 @@ class Aula {
     // Método para ver aulas
     static async verAulas() {
         try {
-            // Aqui você pode adicionar o código para buscar as aulas no banco de dados
-            // Por exemplo: const aulas = await db.getAulas();
-            // E então, imprimir as aulas
-            // aulas.forEach(aula => console.log(aula));
+            // Adicionando o código para buscar as aulas no banco de dados
+            const aulas = await db.getAulas();
+            // Imprimindo as aulas
+            aulas.forEach(aula => console.log(aula));
         } catch (error) {
             console.error(`Erro ao buscar as aulas: ${error}`);
         }
