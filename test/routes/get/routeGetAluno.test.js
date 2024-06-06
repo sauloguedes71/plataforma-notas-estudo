@@ -1,6 +1,6 @@
 // aluno.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../../routes/app.js'); 
+const {app, fecharServidor} = require('../../../controller/app.js'); 
 const Aluno = require('../../../src/model/aluno.js');
 
 jest.mock('../../../src/model/aluno');

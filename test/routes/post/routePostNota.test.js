@@ -1,6 +1,6 @@
 // nota.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../../routes/app.js'); 
+const {app, fecharServidor} = require('../../../controller/app.js'); 
 const Nota = require('../../../src/model/nota.js');
 
 jest.mock('../../../src/model/nota');
