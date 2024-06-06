@@ -1,6 +1,6 @@
 // materia.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../../controller/app.js'); 
+const {app, fecharServidor} = require('../../../routes/app.js'); 
 const Materia = require('../../../src/model/materia.js');
 
 jest.mock('../../../src/model/materia');

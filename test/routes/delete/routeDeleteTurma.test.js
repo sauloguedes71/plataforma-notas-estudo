@@ -1,6 +1,6 @@
 // turma.test.js
 const request = require('supertest');
-const {app, fecharServidor} = require('../../../controller/app.js'); 
+const {app, fecharServidor} = require('../../../routes/app.js'); 
 const Turma = require('../../../src/model/turma');
 
 jest.mock('../../../src/model/turma');
