@@ -7,6 +7,9 @@
     "test": "jest",
     "dev": "nodemon app.js"
   },
+  "jest": {
+    "maxWorkers": 1
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
