@@ -1,13 +1,11 @@
-import express from "express";
-import bodyParser from "body-parser";
-
-import { Aluno } from "../src/model/aluno.js";
-import { Materia } from "../src/model/materia.js";
-import { Nota } from "../src/model/nota.js";
-import { Professor } from "../src/model/professor.js";
-import { Turma } from "../src/model/turma.js";
-import { Usuario } from "../src/model/usuario.js";
-
+const express = require('express');
+const bodyParser = require('body-parser');
+const Aluno = require('../src/model/aluno');
+const Materia = require('../src/model/materia');
+const Nota = require('../src/model/nota');
+const Professor = require('../src/model/professor');
+const Turma = require('../src/model/turma');
+const Usuario = require('../src/model/usuario');
 
 const app = express();
 
@@ -158,4 +156,4 @@ function fecharServidor() {
   });
 }
 
-export default {app,fecharServidor}
+module.exports = { app, fecharServidor };
