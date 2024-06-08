@@ -20,10 +20,10 @@ afterAll(async () => {
     jest.resetAllMocks();
 });
 
-describe('POST /login', () => {
+describe('POST /usuarios/login', () => {
   it('deve fazer login como usuário', async () => {
     const response = await request(app)
-      .post('/login')
+      .post('/usuarios/login')
       .send({ email: 'test@example.com', senha: 'password123' });
 
     // Verifique se a resposta está correta
@@ -44,7 +44,7 @@ describe('POST /login', () => {
     });
 
     const response = await request(app)
-      .post('/login')
+      .post('/usuarios/login')
       .send({ email: 'test@example.com', senha: 'password123' });
 
     // Verifique se a resposta está correta
