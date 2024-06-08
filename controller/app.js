@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const alunosRoutes = require('./routes/alunos');
-const materiasRoutes = require('./routes/materias');
-const notasRoutes = require('./routes/notas');
-const professoresRoutes = require('./routes/professores');
-const turmasRoutes = require('./routes/turmas');
-const usuariosRoutes = require('./routes/usuarios');
-const faltasRoutes = require('./routes/faltas');
-const aulasRoutes = require('./routes/aulas');
+const alunosRoutes = require('./routes/alunosController');
+const materiasRoutes = require('./routes/materiasController');
+const notasRoutes = require('./routes/notasController');
+const professoresRoutes = require('./routes/professoresController');
+const turmasRoutes = require('./routes/turmasController');
+const usuariosRoutes = require('./routes/usuariosController');
+const faltasRoutes = require('./routes/faltasController');
+const aulasRoutes = require('./routes/aulasController');
 
 const app = express();
 
